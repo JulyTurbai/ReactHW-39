@@ -2,23 +2,18 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
+import MyContext from './Context/MyContext';
 
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    {id: 1, title: 'Learn JS', completed: false},
+    {id: 2, title: 'Learn HTML', completed: false},
+    {id: 3, title: 'Learn CSS', completed: true},
+    {id: 4, title: 'Learn React', completed: false}
+  ]);
   
-  
-  useEffect(() => {
-    
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then((response) => response.json())
-      .then(data => {
-       
-        setTodos([data]);
-      })
-    }, []);
 
-  
     const addTodo = title => {
     const id = todos[todos.length -1].id + 1;
     setTodos([...todos, { id, title, completed: false}])
@@ -29,8 +24,6 @@ function App() {
       todos.filter((todo) => todo.id !== id)
     )
   }
-
-
 
   const toggleCompleted = id => {
     setTodos(
@@ -52,12 +45,13 @@ function App() {
       addTodo={ addTodo }/>
 
       <div className="todos mt-20">
-        <TodoList 
-        todos={ todos }
+      <MyContext.Provider value={ todos }>
+      <TodoList 
         setTodos={ setTodos }
         toggleCompleted={ toggleCompleted }
         deleteTodo={ deleteTodo }
         />
+      </MyContext.Provider>
       </div>
     
     </div>

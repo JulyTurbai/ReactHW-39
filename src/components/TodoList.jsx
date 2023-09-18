@@ -1,6 +1,11 @@
 import TodoItem from "./TodoItem";
+import { useContext } from 'react';
+import MyContext from '../Context/MyContext';
 
-const TodoList = ({ todos, toggleCompleted, deleteTodo, setTodos }) => {
+const TodoList = ({ toggleCompleted, deleteTodo, setTodos }) => {
+    const  todos  = useContext(MyContext);
+    const { id } = useContext(MyContext);
+    
     return (
         <>
             <h2>Todo list</h2>
@@ -9,14 +14,12 @@ const TodoList = ({ todos, toggleCompleted, deleteTodo, setTodos }) => {
                 {
                     todos.map( (todo, index) =>  
                     <TodoItem 
-                    key={ todo.id }
+                    key={ id }
                     todo={ todo } 
                     index={ index }
                     toggleCompleted={ toggleCompleted }
                     deleteTodo={ deleteTodo }
                     setTodos={ setTodos }
-                    todos={ todos  }
-                    
                     />
                     )
                 }
